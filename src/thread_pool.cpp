@@ -63,9 +63,9 @@ ThreadPool::~ThreadPool() noexcept
 
     AddTasks();
 
-    while(!m_thread_queue.empty())
+    while(!m_thread_list.empty())
     {
-        m_thread_queue.pop();
+        m_thread_list.pop_front();
     }
 }
 
