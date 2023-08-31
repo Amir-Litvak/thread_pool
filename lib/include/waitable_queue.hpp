@@ -5,7 +5,6 @@
 #include <mutex>              //mutex
 #include <atomic>             //atomic<std::uint64_t>
 #include <condition_variable> //condition_variable
-#include <chrono>             //chrono::seconds /milli
 
 namespace ilrd
 {
@@ -68,35 +67,6 @@ namespace ilrd
         m_queue.pop();
         --m_size;
     }
-
-    template <class T, class Q>
-    bool Waitable_Queue<T, Q>::Pop(T &outparam, const std::chrono::seconds &timeout)
-    {
-        return Pop(outparam, std::chrono::duration_cast<std::chrono::milliseconds>(timeout));
-    }
-
-    template <class T, class Q>
-    bool Waitable_Queue<T, Q>::Pop(T &outparam, const std::chrono::milliseconds &timeout)
-    {
-        using namespace std::chrono;
-        
-        std::unique_lock<std::mutex> u_lock(m_lock);
-        
-        while (0 == m_size)
-        {
-            if (std::cv_status::timeout == m_cond.wait_until(u_lock, system_clock::now() + timeout))
-            {
-                return false;
-            }
-        }
-
-        outparam = m_queue.front();
-        m_queue.pop();
-        --m_size;
-
-        return true;
-    }
-
     
 }
 

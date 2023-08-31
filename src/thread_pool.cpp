@@ -4,7 +4,7 @@
 
 #include "thread_pool.hpp"
 
-namespace ilrd
+namespace thread_pool
 {
 
 /*********************************THREAD UNIT************************************************/

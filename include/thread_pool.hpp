@@ -1,6 +1,6 @@
 #ifndef __THREAD_POOL_HPP__
 #define __THREAD_POOL_HPP__
-#include <functional> 
+#include <functional>  /* function */
 #include <thread> /* thread */
 #include <list> /* list */
 #include <queue> /* pq */
@@ -9,7 +9,7 @@
 #include "waitable_queue.hpp"
 #include "pq_wrapper.hpp"
 
-namespace ilrd 
+namespace thread_pool 
 {
     enum PRIORITY
     {
@@ -35,15 +35,7 @@ namespace ilrd
 
     class Task;
 
-    class CompareFunctor
-    {
-    public:
-        bool operator()(const std::pair<std::shared_ptr<Task>, PRIORITY> &lhs, 
-                        const std::pair<std::shared_ptr<Task>, PRIORITY> &rhs)
-        {
-            return (lhs.second > rhs.second);
-        }
-    };
+    class CompareFunctor;
 
     class ThreadPool
     {
@@ -73,7 +65,7 @@ namespace ilrd
             enum STATUS m_state;
             std::condition_variable cv;
             
-            //nested class
+            //nested RAII thread class
             class ThreadUnit
             {
             public:
@@ -92,6 +84,16 @@ namespace ilrd
                 void ThreadRun() noexcept;
                 
             };
+    };
+
+    class CompareFunctor
+    {
+    public:
+        bool operator()(const std::pair<std::shared_ptr<Task>, PRIORITY> &lhs, 
+                        const std::pair<std::shared_ptr<Task>, PRIORITY> &rhs)
+        {
+            return (lhs.second > rhs.second);
+        }
     };
 
     class Task
@@ -117,7 +119,7 @@ namespace ilrd
         std::function<void()> m_func;
     };
 
-} // namespace ilrd
+} // namespace thread_pool
 
 
 #endif //__THREAD_POOL_HPP__

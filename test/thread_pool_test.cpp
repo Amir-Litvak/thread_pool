@@ -1,10 +1,11 @@
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - compile with makefile
 - make sure you have my test.hpp in your include directory
-- DONT PANIC! the test threads sleeps, give it time.
+- DONT PANIC! the test thread sleeps, give it time.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 #include <chrono> //time for thread sleep
 #include <thread> //this_thread::sleep_for
+#include <atomic>
 
 #include "thread_pool.hpp"
 #include "test.hpp"
@@ -50,7 +51,7 @@ void SetThreadsRemoveWhilePause();
 void SetThreadsRemoveWhileRun();
 void SetNum();
 
-using namespace ilrd;
+using namespace thread_pool;
 
 int main()
 try
