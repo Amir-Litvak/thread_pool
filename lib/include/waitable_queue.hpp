@@ -21,8 +21,6 @@ namespace ilrd
         bool IsEmpty() const noexcept;
         void Push(const T &data);
         void Pop(T &outparam);
-        bool Pop(T &outparam, const std::chrono::seconds &timeout);
-        bool Pop(T &outparam, const std::chrono::milliseconds &timeout);
 
     private:
         std::atomic<std::uint64_t> m_size;
